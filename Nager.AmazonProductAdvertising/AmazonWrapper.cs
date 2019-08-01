@@ -96,9 +96,9 @@ namespace Nager.AmazonProductAdvertising
 
             return operation;
         }
-        public AmazonBatchItemLookupOperation BatchItemLookupOperation(IList<string> articleNumbers, AmazonResponseGroup amazonResponseGroup = AmazonResponseGroup.Large)
+        public AmazonBatchItemLookupOperation BatchItemLookupOperation(IList<string> articleNumbers, AmazonResponseGroup amazonResponseGroup = AmazonResponseGroup.Large, bool onlyAmazon = false)
         {
-            var operation = new AmazonBatchItemLookupOperation();
+            var operation = new AmazonBatchItemLookupOperation(amazonResponseGroup, onlyAmazon);
             //operation.ResponseGroup(amazonResponseGroup);
             operation.Get(articleNumbers);
             operation.AssociateTag(this._associateTag);
@@ -175,9 +175,9 @@ namespace Nager.AmazonProductAdvertising
             return this.Lookup(new string[1] { articleNumber }, responseGroup);
         }
 
-        public AmazonItemResponse BatchLookup(IList<string> articleNumbers)
+        public AmazonItemResponse BatchLookup(IList<string> articleNumbers, AmazonResponseGroup responseGroup = AmazonResponseGroup.Large, bool amazonOnly = false)
         {
-            var operation = this.BatchItemLookupOperation(articleNumbers);
+            var operation = this.BatchItemLookupOperation(articleNumbers, responseGroup, amazonOnly);
             var webResponse = this.Request(operation);
             if (webResponse.StatusCode == HttpStatusCode.OK)
             {

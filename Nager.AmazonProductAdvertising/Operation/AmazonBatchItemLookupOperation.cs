@@ -10,10 +10,12 @@ namespace Nager.AmazonProductAdvertising.Operation
 {
     public class AmazonBatchItemLookupOperation : AmazonOperationBase
     {
-        public AmazonBatchItemLookupOperation()
+        public AmazonBatchItemLookupOperation(AmazonResponseGroup responseGroup, bool onlyAmazon)
         {
             base.ParameterDictionary.Add("Operation", "ItemLookup");
-            base.ParameterDictionary.Add("ItemLookup.Shared.ResponseGroup", AmazonResponseGroup.Large.ToString());
+            base.ParameterDictionary.Add("ItemLookup.Shared.ResponseGroup", responseGroup.ToString());
+            if (onlyAmazon) base.ParameterDictionary.Add("ItemLookup.Shared.MerchantId", "Amazon");
+            base.ParameterDictionary.Add("ItemLookup.Shared.Condition", "All");
         }
 
         public void Get(IList<string> articleNumbers)
